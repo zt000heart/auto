@@ -21,13 +21,14 @@ public final class Helloworld {
 
     public static void main(String[] args) {
         System.out.println("Hello, JavaPoet!");
-        MethodSpec main = getMethodSpec$S();
+        MethodSpec main = getAnn();
 
         ClassName hover = ClassName.get("com.example.zhangtao21.auto","Bean");
         FieldSpec fieldSpec = FieldSpec.builder(hover,"zhangtao", Modifier.FINAL, Modifier.PUBLIC).build();
 
         TypeSpec helloWorld = TypeSpec.classBuilder("Hello")
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addField(fieldSpec)
                 .addMethod(main)
                 .build();
 
@@ -103,6 +104,30 @@ public final class Helloworld {
                 .addStatement("$T bean = new $T($S,$S)", hover, hover, "name", "address")
                 .addStatement("return bean")
                 .build();
+    }
+
+    private static MethodSpec getAbs(){
+        return MethodSpec.methodBuilder("flux")
+                .addModifiers(Modifier.ABSTRACT,Modifier.PROTECTED)
+                .build();
+    }
+
+    private static MethodSpec getConStructor(){
+        return MethodSpec.constructorBuilder()
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(String.class,"str")
+                .build();
+    }
+
+    private static MethodSpec getAnn(){
+        MethodSpec toString = MethodSpec.methodBuilder("toString")
+                .addJavadoc("please")
+                .addAnnotation(Override.class)
+                .returns(String.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addStatement("return $S", "Hoverboard")
+                .build();
+        return toString;
     }
 
 }
